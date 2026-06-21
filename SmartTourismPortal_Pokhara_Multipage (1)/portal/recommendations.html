@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokhara Recommendations — Tourist Explorer</title>
+ 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Roboto:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#3BAFDA;
+    --sky-dark:#2C8FB3;
+    --teal:#2C9C91;
+    --teal-dark:#1E6B63;
+    --orange:#F28C38;
+    --orange-dark:#D8731F;
+    --beige:#F5F2E7;
+    --charcoal:#333333;
+    --white:#FFFFFF;
+    --ink-soft:#5A5A5A;
+    --shadow-card: 0 10px 30px rgba(51,51,51,0.10);
+    --shadow-lift: 0 18px 40px rgba(51,51,51,0.16);
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --container: 1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Roboto', sans-serif;
+    color:var(--charcoal);
+    background:var(--beige);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Poppins', sans-serif;
+    margin:0;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;}
+  .wrap{max-width:var(--container);margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    font-family:'Poppins',sans-serif;
+    font-weight:700;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--teal-dark);
+  }
+
+  /* ── Smart Tourism Brand Bridge ─────────────────────────── */
+  /* Mirrors key tokens from dashboard/css/style.css so both
+     systems share the same visual DNA without a hard dependency */
+  :root {
+    --st-primary:   #1565C0;   /* dashboard --primary */
+    --st-accent:    #00B0FF;   /* dashboard --accent  */
+    --st-emerald:   #00E676;   /* dashboard --emerald */
+    --st-gold:      #FFD54F;   /* dashboard --gold    */
+  }
+
+  /* Dashboard-link accent in nav inherits brand colour */
+  #nav-dashboard-link { color: var(--st-accent) !important; }
+  header.scrolled #nav-dashboard-link { color: var(--st-primary) !important; }
+
+  /* "Smart Tourism" badge chip — used in hero eyebrow strip */
+  .smart-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(90deg, var(--st-primary), var(--st-accent));
+    color: #fff; border-radius: 999px; padding: 4px 14px;
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 16px; box-shadow: 0 4px 14px rgba(21,101,192,0.30);
+  }
+  :focus-visible{outline:3px solid var(--orange); outline-offset:2px; border-radius:4px;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:13px 26px;
+    border-radius:999px;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:0.95rem;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--orange);
+    color:var(--white);
+    box-shadow:0 10px 22px rgba(242,140,56,0.38);
+  }
+  .btn-primary:hover{background:var(--orange-dark); transform:translateY(-2px);}
+  .btn-ghost{
+    background:rgba(255,255,255,0.12);
+    color:var(--white);
+    border:1.5px solid rgba(255,255,255,0.65);
+    backdrop-filter:blur(2px);
+  }
+  .btn-ghost:hover{background:rgba(255,255,255,0.92); color:var(--teal-dark);}
+  .btn-outline{
+    background:transparent;
+    color:var(--teal-dark);
+    border:1.5px solid var(--teal);
+    padding:11px 22px;
+  }
+  .btn-outline:hover{background:var(--teal); color:var(--white); transform:translateY(-2px);}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:18px 0;
+    transition:background .25s ease, padding .25s ease, box-shadow .25s ease;
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between;}
+  header.scrolled{
+    background:var(--white);
+    box-shadow:0 4px 20px rgba(51,51,51,0.08);
+    padding:11px 0;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:1.25rem;
+    color:var(--white);
+  }
+  header.scrolled .logo{color:var(--charcoal);}
+  .logo svg{flex-shrink:0;}
+  .nav-links{
+    display:flex; align-items:center; gap:34px;
+    font-family:'Poppins',sans-serif; font-weight:500; font-size:0.92rem;
+  }
+  .nav-links a{color:rgba(255,255,255,0.92); position:relative; padding:4px 0;}
+  header.scrolled .nav-links a{color:var(--charcoal);}
+  .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:0; height:2px;
+    background:var(--orange); transition:width .2s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-actions{display:flex; align-items:center; gap:12px;}
+  header.scrolled .btn-ghost{color:var(--teal-dark); border-color:var(--teal); background:transparent;}
+  header.scrolled .btn-ghost:hover{background:var(--teal); color:var(--white);}
+  .burger{display:none; width:30px; height:22px; position:relative; z-index:101;}
+  .burger span{position:absolute; left:0; right:0; height:2.5px; background:var(--white); border-radius:2px; transition:.25s;}
+  header.scrolled .burger span{background:var(--charcoal);}
+  .burger span:nth-child(1){top:0;} .burger span:nth-child(2){top:9px;} .burger span:nth-child(3){top:18px;}
+  .burger.open span:nth-child(1){transform:translateY(9px) rotate(45deg);}
+  .burger.open span:nth-child(2){opacity:0;}
+  .burger.open span:nth-child(3){transform:translateY(-9px) rotate(-45deg);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:120px;
+    padding-bottom:140px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:
+      linear-gradient(115deg, rgba(30,107,99,0.88) 0%, rgba(30,107,99,0.55) 32%, rgba(51,51,51,0.25) 60%, rgba(51,51,51,0.15) 100%),
+      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=2000&q=80');
+    background-size:cover;
+    background-position:center;
+  }
+  .hero-bg::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(to top, var(--beige) 0%, transparent 14%);
+  }
+  .hero-content{position:relative; z-index:2; max-width:680px;}
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:0.78rem;
+    letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--white); background:rgba(255,255,255,0.16);
+    border:1px solid rgba(255,255,255,0.4);
+    padding:7px 16px; border-radius:999px; margin-bottom:22px;
+  }
+  .hero h1{
+    color:var(--white);
+    font-size:clamp(2.1rem, 5.2vw, 3.6rem);
+    font-weight:800;
+    margin-bottom:20px;
+    text-shadow:0 4px 24px rgba(0,0,0,0.25);
+  }
+  .hero p.sub{
+    color:rgba(255,255,255,0.92);
+    font-size:clamp(1rem, 1.5vw, 1.18rem);
+    max-width:540px;
+    margin-bottom:34px;
+    line-height:1.6;
+  }
+  .hero-ctas{display:flex; gap:16px; flex-wrap:wrap;}
+
+  /* ---------- Luggage tag highlights ---------- */
+  .tags-strip{
+    position:relative; z-index:5;
+    margin-top:-78px;
+  }
+  .tags-row{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
+  }
+  .tag{
+    background:var(--white);
+    border-radius:16px;
+    padding:20px 18px 18px;
+    box-shadow:var(--shadow-card);
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
+    gap:8px;
+    transition:transform .22s ease, box-shadow .22s ease;
+    border-top:3px dashed rgba(51,51,51,0.12);
+  }
+  .tag:nth-child(1){transform:rotate(-2deg);}
+  .tag:nth-child(2){transform:rotate(1.4deg);}
+  .tag:nth-child(3){transform:rotate(-1deg);}
+  .tag:nth-child(4){transform:rotate(2deg);}
+  .tag:hover{transform:translateY(-6px) rotate(0deg); box-shadow:var(--shadow-lift);}
+  .tag::before{
+    content:''; position:absolute; top:-7px; left:50%; transform:translateX(-50%);
+    width:14px; height:14px; border-radius:50%;
+    background:var(--beige); border:2px solid rgba(51,51,51,0.15);
+  }
+  .tag-icon{font-size:1.9rem; line-height:1;}
+  .tag-label{font-family:'Poppins',sans-serif; font-weight:700; font-size:0.95rem;}
+  .tag-link{font-size:0.78rem; color:var(--sky-dark); font-weight:600;}
+
+  /* ---------- Section shells ---------- */
+  section{padding:100px 0 0;}
+  .section-head{max-width:620px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.3rem); margin:10px 0 14px;}
+  .section-head p{color:var(--ink-soft); font-size:1.02rem; line-height:1.65;}
+  .center{text-align:center; margin-left:auto; margin-right:auto;}
+
+  /* ---------- Boarding pass / seasonal insights ---------- */
+  .boarding-pass{
+    background:var(--white);
+    border-radius:24px;
+    box-shadow:var(--shadow-lift);
+    display:grid;
+    grid-template-columns:300px 1fr;
+    position:relative;
+    overflow:hidden;
+  }
+  .bp-stub{
+    background:var(--teal-dark);
+    color:var(--white);
+    padding:42px 34px;
+    position:relative;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .bp-stub::after{
+    content:'';
+    position:absolute; top:0; bottom:0; right:-1px; width:0;
+    border-right:2px dashed rgba(255,255,255,0.35);
+  }
+  .bp-perf{
+    position:absolute; right:-13px; top:0; bottom:0; width:26px;
+    background-image:radial-gradient(circle, var(--beige) 7px, transparent 7.5px);
+    background-size:26px 30px;
+    background-position:center;
+  }
+  .bp-quote{
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:600;
+    font-size:1.4rem; color:var(--white); line-height:1.35;
+  }
+  .bp-plane-row{display:flex; align-items:center; gap:10px; margin-top:30px;}
+  .bp-dots{flex:1; height:1px; background:repeating-linear-gradient(to right, rgba(255,255,255,0.55) 0 6px, transparent 6px 12px);}
+  .bp-route{font-family:'Poppins',sans-serif; font-size:0.72rem; letter-spacing:0.1em; color:rgba(255,255,255,0.75); margin-top:18px;}
+  .bp-main{padding:42px 40px 42px 50px;}
+  .bp-main .eyebrow{margin-bottom:8px; display:block;}
+  .bp-main h3{font-size:1.5rem; margin-bottom:6px;}
+  .bp-main > p{color:var(--ink-soft); font-size:0.95rem; margin-bottom:26px; max-width:480px;}
+
+  .heatmap{display:grid; grid-template-columns:110px 1fr; gap:10px 0; align-items:center;}
+  .heatmap-head{display:contents;}
+  .heatmap-head .hm-corner{font-size:0.72rem; color:var(--ink-soft);}
+  .heatmap-head .hm-cols{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+  .heatmap-head .hm-cols span{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:0.74rem;
+    text-align:center; color:var(--charcoal); text-transform:uppercase; letter-spacing:0.03em;
+  }
+  .hm-row-label{font-family:'Poppins',sans-serif; font-weight:600; font-size:0.82rem; color:var(--charcoal);}
+  .hm-row-cells{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+  .hm-cell{
+    height:34px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.68rem; font-weight:700; color:var(--white);
+    font-family:'Poppins',sans-serif;
+  }
+  .lvl-1{background:#BFE3F2; color:var(--teal-dark);}
+  .lvl-2{background:var(--sky);}
+  .lvl-3{background:var(--teal);}
+  .lvl-4{background:var(--orange);}
+  .legend{display:flex; gap:18px; margin-top:22px; flex-wrap:wrap;}
+  .legend-item{display:flex; align-items:center; gap:7px; font-size:0.78rem; color:var(--ink-soft);}
+  .legend-swatch{width:13px; height:13px; border-radius:4px; display:inline-block;}
+
+  /* ---------- Featured recommendations ---------- */
+  .cards-row{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:30px;
+  }
+  .rec-card{
+    background:var(--white);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+    overflow:hidden;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .rec-card:hover{transform:translateY(-8px); box-shadow:var(--shadow-lift);}
+  .rec-img-wrap{position:relative; padding:14px 14px 0;}
+  .rec-img-wrap img{
+    width:100%; height:190px; object-fit:cover; border-radius:12px 12px 4px 4px;
+  }
+  .rec-card:nth-child(1) .rec-img-wrap img{transform:rotate(-1.2deg);}
+  .rec-card:nth-child(2) .rec-img-wrap img{transform:rotate(0.8deg);}
+  .rec-card:nth-child(3) .rec-img-wrap img{transform:rotate(-0.6deg);}
+  .rec-category{
+    position:absolute; top:26px; left:26px;
+    background:rgba(51,51,51,0.55); backdrop-filter:blur(3px);
+    color:var(--white); font-family:'Poppins',sans-serif; font-weight:600; font-size:0.7rem;
+    padding:5px 13px; border-radius:999px; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .rec-body{padding:22px 24px 26px;}
+  .rec-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:6px;}
+  .rec-body h4{font-size:1.12rem;}
+  .stars{display:flex; align-items:center; gap:4px; font-size:0.82rem; color:var(--orange-dark); font-weight:700; white-space:nowrap; font-family:'Poppins',sans-serif;}
+  .rec-loc{font-size:0.82rem; color:var(--ink-soft); margin-bottom:12px; display:flex; align-items:center; gap:5px;}
+  .rec-desc{font-size:0.9rem; color:var(--ink-soft); line-height:1.55; margin-bottom:20px;}
+
+  /* ---------- Testimonials / postcards ---------- */
+  .postcard-section{background:var(--teal-dark); padding-bottom:100px; margin-top:110px; color:var(--white); position:relative;}
+  .postcard-section .section-head p{color:rgba(255,255,255,0.78);}
+  .postcard-section .eyebrow{color:#9FE3DA;}
+  .carousel{position:relative; max-width:760px; margin:0 auto;}
+  .postcard-track{overflow:hidden; border-radius:18px;}
+  .postcard-slides{display:flex; transition:transform .5s cubic-bezier(.65,0,.35,1);}
+  .postcard{
+    flex:0 0 100%;
+    background:#FCFAF3;
+    color:var(--charcoal);
+    border-radius:18px;
+    padding:40px 44px;
+    display:flex; gap:30px; align-items:flex-start;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  }
+  .postcard::before{
+    content:''; position:absolute; left:30px; top:0; bottom:0; width:1px;
+    background:repeating-linear-gradient(to bottom, rgba(51,51,51,0.25) 0 5px, transparent 5px 11px);
+  }
+  .pc-stamp{
+    flex-shrink:0; width:64px; height:64px; border-radius:50%;
+    background:var(--orange); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.6rem; border:3px dashed rgba(255,255,255,0.7);
+    transform:rotate(8deg); margin-top:4px;
+  }
+  .pc-body{padding-left:14px;}
+  .pc-quote{font-family:'Playfair Display', serif; font-style:italic; font-weight:500; font-size:1.18rem; line-height:1.5; margin-bottom:16px;}
+  .pc-name{font-family:'Poppins',sans-serif; font-weight:700; font-size:0.92rem;}
+  .pc-stars{color:var(--orange-dark); font-size:0.85rem; margin-top:4px; font-weight:700; font-family:'Poppins',sans-serif;}
+  .carousel-controls{display:flex; align-items:center; justify-content:center; gap:18px; margin-top:30px;}
+  .car-btn{
+    width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,0.12);
+    border:1.5px solid rgba(255,255,255,0.45); color:var(--white);
+    display:flex; align-items:center; justify-content:center; transition:.2s;
+  }
+  .car-btn:hover{background:var(--orange); border-color:var(--orange);}
+  .dots{display:flex; gap:9px;}
+  .dot{width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.35); transition:.2s;}
+  .dot.active{background:var(--orange); width:26px; border-radius:5px;}
+
+  /* ---------- CTA strip ---------- */
+  .cta-strip{
+    margin:110px 0 0; padding:64px 0;
+    background:linear-gradient(120deg, var(--sky) 0%, var(--teal) 100%);
+    text-align:center; color:var(--white);
+  }
+  .cta-strip h2{font-size:clamp(1.5rem,3vw,2.1rem); margin-bottom:14px;}
+  .cta-strip p{margin-bottom:30px; color:rgba(255,255,255,0.92); font-size:1.02rem;}
+  .cta-strip .btn-primary{box-shadow:0 10px 26px rgba(0,0,0,0.2);}
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--charcoal); color:rgba(255,255,255,0.82); padding-top:70px;}
+  .footer-grid{
+    display:grid; grid-template-columns:1.4fr 1fr 1fr 1.1fr; gap:40px;
+    padding-bottom:50px; border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .footer-brand .logo{color:var(--white); margin-bottom:14px;}
+  .footer-brand p{font-size:0.88rem; color:rgba(255,255,255,0.6); line-height:1.6; max-width:280px; margin-bottom:22px;}
+  .social-row{display:flex; gap:10px;}
+  .social-icon{
+    width:38px; height:38px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center; transition:.2s;
+  }
+  .social-icon:hover{background:var(--orange); border-color:var(--orange); transform:translateY(-3px);}
+  .footer-col h5{font-family:'Poppins',sans-serif; font-weight:700; font-size:0.85rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--white); margin-bottom:16px;}
+  .footer-col ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:11px;}
+  .footer-col a{font-size:0.9rem; color:rgba(255,255,255,0.68); transition:.18s;}
+  .footer-col a:hover{color:var(--orange);}
+  .lang-select{
+    position:relative; display:inline-flex; align-items:center; gap:10px;
+    border:1.5px dashed rgba(255,255,255,0.35); border-radius:999px;
+    padding:9px 16px; font-size:0.85rem; cursor:pointer; color:var(--white);
+    background:rgba(255,255,255,0.04);
+  }
+  .lang-select select{
+    background:transparent; color:var(--white); border:none; font-family:'Roboto',sans-serif;
+    font-size:0.85rem; appearance:none; cursor:pointer; padding-right:4px;
+  }
+  .lang-select select option{color:var(--charcoal);}
+  .footer-bottom{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
+    padding:24px 0 30px; font-size:0.8rem; color:rgba(255,255,255,0.45);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    .tags-row{grid-template-columns:repeat(2,1fr);}
+    .cards-row{grid-template-columns:1fr 1fr;}
+    .boarding-pass{grid-template-columns:1fr;}
+    .bp-stub::after,.bp-perf{display:none;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:760px){
+    .nav-links{
+      position:fixed; top:0; right:0; height:100vh; width:78%; max-width:320px;
+      background:var(--white); flex-direction:column; align-items:flex-start;
+      padding:100px 30px 30px; gap:26px; transform:translateX(100%);
+      transition:transform .3s ease; box-shadow:-10px 0 30px rgba(0,0,0,0.15);
+    }
+    .nav-links.open{transform:translateX(0);}
+    .nav-links a{color:var(--charcoal) !important; font-size:1.05rem;}
+    .nav-actions .btn-ghost{display:none;}
+    .burger{display:block;}
+    .hero{padding-top:110px; padding-bottom:170px; min-height:auto;}
+    .hero-ctas .btn{flex:1; min-width:140px;}
+    .tags-row{grid-template-columns:1fr 1fr; gap:14px;}
+    .tag{padding:16px 12px;}
+    section{padding-top:74px;}
+    .cards-row{grid-template-columns:1fr;}
+    .postcard{flex-direction:column; padding:30px 26px;}
+    .postcard::before{display:none;}
+    .pc-stamp{margin-bottom:6px;}
+    footer{padding-top:50px;}
+    .footer-grid{grid-template-columns:1fr; gap:34px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; scroll-behavior:auto !important;}
+  }
+ .hero,#insights,#reviews{display:none!important;} </style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="#" class="logo">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="14" stroke="currentColor" stroke-width="2"/>
+        <path d="M15 6L19 13L15 24L11 13L15 6Z" fill="#F28C38"/>
+      </svg>
+      Tourist Explorer
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#highlights">Explore</a>
+      <a href="#insights">Seasonal Insights</a>
+      <a href="recommendations.html">Recommendations</a>
+      <a href="reviews.html">Reviews</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-ghost">
+        <button onclick="location.href='signin.html'">Sign In</button> 
+      </a>
+      <a href="#" class="btn btn-primary">
+         <button onclick="location.href='register.html'">Get Started</button> 
+    </a>
+
+     
+      <button class="burger" id="burgerBtn" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap hero-content">
+    <div class="smart-badge">🗺 Pokhara Smart Tourism</div>
+    <span class="hero-eyebrow">✈ Plan • Discover • Belong</span>
+    <h1>Discover the Best Places to Stay, Eat &amp; Explore</h1>
+    <p class="sub">Real-time insights on restaurants, cafés, hotels, and seasonal crowd levels.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary">Get Started</a>
+      <a href="#" class="btn btn-ghost">Sign In</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap tags-strip" id="highlights">
+  <div class="tags-row">
+    <a href="#" class="tag">
+      <span class="tag-icon">🍴</span>
+      <span class="tag-label">Restaurants</span>
+      <span class="tag-link">Explore plates →</span>
+    </a>
+    <a href="#" class="tag">
+      <span class="tag-icon">☕</span>
+      <span class="tag-label">Cafés</span>
+      <span class="tag-link">Find a brew →</span>
+    </a>
+    <a href="#" class="tag">
+      <span class="tag-icon">🏨</span>
+      <span class="tag-label">Hotels</span>
+      <span class="tag-link">Book a stay →</span>
+    </a>
+    <a href="#" class="tag">
+      <span class="tag-icon">🗺️</span>
+      <span class="tag-label">Tourist Spots</span>
+      <span class="tag-link">See the map →</span>
+    </a>
+  </div>
+</div>
+
+<section id="insights">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="eyebrow">Seasonal Insights</span>
+      <h2>Know the crowd before you go</h2>
+      <p>A quick read on how busy each kind of destination gets, season by season — so you can pick quiet weeks or embrace the buzz on purpose.</p>
+    </div>
+
+    <div class="boarding-pass">
+      <div class="bp-stub">
+        <div class="bp-perf"></div>
+        <div>
+          <p class="bp-quote">"Plan smarter, travel better."</p>
+          <div class="bp-plane-row">
+            <span>🧳</span>
+            <span class="bp-dots"></span>
+            <span>📍</span>
+          </div>
+        </div>
+        <p class="bp-route">BOARDING PASS · ISSUED TO: EVERY EXPLORER</p>
+      </div>
+
+      <div class="bp-main">
+        <span class="eyebrow">Crowd Forecast</span>
+        <h3>Where it gets busy, and when</h3>
+        <p>Sky blue means breathing room, orange means peak season. Use it to time your trip around the calm — or the celebration.</p>
+
+        <div class="heatmap">
+          <div class="heatmap-head">
+            <span class="hm-corner">Destination</span>
+            <div class="hm-cols"><span>Spring</span><span>Summer</span><span>Autumn</span><span>Winter</span></div>
+          </div>
+
+          <span class="hm-row-label">Mountains</span>
+          <div class="hm-row-cells">
+            <div class="hm-cell lvl-2">Low</div>
+            <div class="hm-cell lvl-3">Med</div>
+            <div class="hm-cell lvl-4">High</div>
+            <div class="hm-cell lvl-1">Low</div>
+          </div>
+
+          <span class="hm-row-label">Coastal Towns</span>
+          <div class="hm-row-cells">
+            <div class="hm-cell lvl-2">Low</div>
+            <div class="hm-cell lvl-4">Peak</div>
+            <div class="hm-cell lvl-3">Med</div>
+            <div class="hm-cell lvl-1">Low</div>
+          </div>
+
+          <span class="hm-row-label">City Centers</span>
+          <div class="hm-row-cells">
+            <div class="hm-cell lvl-3">Med</div>
+            <div class="hm-cell lvl-3">Med</div>
+            <div class="hm-cell lvl-2">Low</div>
+            <div class="hm-cell lvl-2">Low</div>
+          </div>
+
+          <span class="hm-row-label">Heritage Sites</span>
+          <div class="hm-row-cells">
+            <div class="hm-cell lvl-4">High</div>
+            <div class="hm-cell lvl-2">Low</div>
+            <div class="hm-cell lvl-4">Peak</div>
+            <div class="hm-cell lvl-1">Low</div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><span class="legend-swatch lvl-1"></span>Quiet</div>
+          <div class="legend-item"><span class="legend-swatch lvl-2"></span>Low</div>
+          <div class="legend-item"><span class="legend-swatch lvl-3"></span>Moderate</div>
+          <div class="legend-item"><span class="legend-swatch lvl-4"></span>Peak</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="recommendations" class="wrap" style="padding:80px 24px">
+<h2>Recommended places</h2><p style="margin:12px 0 24px">Explore popular places in Pokhara. Select a place to see details and open its Google Maps location.</p>
+<div id="placeCards" class="cards-row"></div></section>
+<section id="reviews" class="wrap" style="padding:30px 24px 80px;text-align:center"><h2>Enjoying Tourist Explorer?</h2><p style="margin:12px">Your feedback helps us improve.</p><button class="btn btn-primary" id="openRating">Rate our website</button></section>
+<div id="placeModal" class="te-modal" aria-hidden="true"><div class="te-modal-box"><button class="close-modal">×</button><div id="placeContent"></div></div></div>
+<div id="ratingModal" class="te-modal" aria-hidden="true"><div class="te-modal-box"><button class="close-modal">×</button><h2>Rate Tourist Explorer</h2><p>How would you rate your experience?</p><div class="stars" id="stars" aria-label="Choose a rating"></div><textarea id="ratingComment" placeholder="Optional comment"></textarea><button class="btn btn-primary" id="submitRating">Submit rating</button><p id="ratingMessage"></p></div></div>
+<style>.te-modal{display:none;position:fixed;inset:0;background:#0008;z-index:999;align-items:center;justify-content:center;padding:20px}.te-modal.show{display:flex}.te-modal-box{position:relative;background:#fff;border-radius:18px;padding:28px;max-width:520px;width:100%;box-shadow:var(--shadow-lift)}.close-modal{position:absolute;right:16px;top:10px;font-size:30px}.place-card{cursor:pointer}.place-card:hover{transform:translateY(-5px)}.stars{font-size:38px;color:#F28C38;margin:18px 0}.stars span{cursor:pointer}textarea{width:100%;min-height:90px;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:15px}</style>
+<script>
+const places=[
+{name:'World Peace Pagoda',type:'Temple',rating:4.6,info:'A hilltop Buddhist stupa with wide views of Phewa Lake and the Pokhara Valley.',map:'https://www.google.com/maps/search/?api=1&query=World+Peace+Pagoda+Pokhara'},
+{name:'Bindhyabasini Temple',type:'Temple',rating:4.6,info:'A well-known Hindu temple in Pokhara dedicated to Goddess Bhagwati.',map:'https://www.google.com/maps/search/?api=1&query=Bindhyabasini+Temple+Pokhara'},
+{name:'Temple Tree Resort & Spa',type:'Hotel',rating:4.5,info:'A popular Lakeside hotel with a garden setting and easy access to Phewa Lake.',map:'https://www.google.com/maps/search/?api=1&query=Temple+Tree+Resort+and+Spa+Pokhara'},
+{name:'Pokhara Grande',type:'Hotel',rating:4.4,info:'A full-service hotel in Pokhara with mountain-view surroundings.',map:'https://www.google.com/maps/search/?api=1&query=Pokhara+Grande'},
+{name:'Moondance Restaurant',type:'Restaurant',rating:4.4,info:'A popular Lakeside restaurant serving Nepali and international dishes.',map:'https://www.google.com/maps/search/?api=1&query=Moondance+Restaurant+Pokhara'},
+{name:'Fresh Elements Restaurant',type:'Restaurant',rating:4.5,info:'A well-known Pokhara restaurant with varied local and international options.',map:'https://www.google.com/maps/search/?api=1&query=Fresh+Elements+Restaurant+Pokhara'},
+{name:'Himalayan Java Coffee',type:'Cafe',rating:4.3,info:'A familiar coffee stop in Pokhara for local coffee and relaxed seating.',map:'https://www.google.com/maps/search/?api=1&query=Himalayan+Java+Coffee+Pokhara'},
+{name:'Pokhara Java',type:'Cafe',rating:4.3,info:'A Lakeside café popular for coffee, bakery items, and casual meetups.',map:'https://www.google.com/maps/search/?api=1&query=Pokhara+Java+Pokhara'},
+{name:'Manipal Teaching Hospital',type:'Hospital',rating:4.2,info:'A major teaching hospital serving Pokhara and the surrounding region.',map:'https://www.google.com/maps/search/?api=1&query=Manipal+Teaching+Hospital+Pokhara'},
+{name:'Pokhara Academy of Health Sciences',type:'Hospital',rating:4.1,info:'A public health-sciences institution and hospital in Pokhara.',map:'https://www.google.com/maps/search/?api=1&query=Pokhara+Academy+of+Health+Sciences'}]
+const cards=document.getElementById('placeCards');cards.innerHTML=places.map((p,i)=>`<article class="place-card" data-i="${i}" style="background:white;padding:22px;border-radius:14px;box-shadow:var(--shadow-card)"><span class="eyebrow">${p.type}</span><h3 style="margin:8px 0">${p.name}</h3><p>⭐ ${p.rating} / 5</p><p style="margin-top:12px;color:var(--teal-dark)">View details & map →</p></article>`).join('');
+function show(id){document.getElementById(id).classList.add('show')}function hideAll(){document.querySelectorAll('.te-modal').forEach(x=>x.classList.remove('show'))}
+cards.onclick=e=>{let c=e.target.closest('.place-card');if(!c)return;let p=places[c.dataset.i];document.getElementById('placeContent').innerHTML=`<span class="eyebrow">${p.type}</span><h2>${p.name}</h2><p style="margin:14px 0">⭐ ${p.rating} / 5</p><p>${p.info}</p><a class="btn btn-primary" style="margin-top:20px" target="_blank" href="${p.map}">Open in Google Maps</a>`;show('placeModal')};
+document.querySelectorAll('.close-modal').forEach(b=>b.onclick=hideAll);document.getElementById('openRating').onclick=()=>show('ratingModal');
+let selected=0;document.getElementById('stars').innerHTML=[1,2,3,4,5].map(n=>`<span data-n="${n}">☆</span>`).join('');document.getElementById('stars').onclick=e=>{if(!e.target.dataset.n)return;selected=+e.target.dataset.n;document.querySelectorAll('#stars span').forEach(x=>x.textContent=+x.dataset.n<=selected?'★':'☆')};
+document.getElementById('submitRating').onclick=async()=>{if(!selected)return document.getElementById('ratingMessage').textContent='Please select 1–5 stars.';try{let r=await fetch('http://localhost:5000/api/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({rating:selected,comment:document.getElementById('ratingComment').value})});document.getElementById('ratingMessage').textContent=r.ok?'Thank you for your rating!':'Could not save rating.'}catch(e){document.getElementById('ratingMessage').textContent='Start the backend server to save ratings.'}};
+</script>
+
+<div class="cta-strip">
+  <div class="wrap">
+    <h2>Your next trip is one search away</h2>
+    <p>Create a free account and start tracking the places — and the timing — that matter to you.</p>
+    <a href="register.html" id="cta-get-started" class="btn btn-primary">Get Started</a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <svg width="28" height="28" viewBox="0 0 30 30" fill="none">
+            <circle cx="15" cy="15" r="14" stroke="currentColor" stroke-width="2"/>
+            <path d="M15 6L19 13L15 24L11 13L15 6Z" fill="#F28C38"/>
+          </svg>
+          Tourist Explorer
+        </a>
+        <p>Real-time insight on where to eat, stay, and wander — and when to do it for the smallest crowd.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 8h2V5h-2a4 4 0 0 0-4 4v2H9v3h2v7h3v-7h2.5l.5-3H14V9a1 1 0 0 1 1-1Z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="X / Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h4.6l5 6.7L17.7 3H21l-7 8.4L21.5 21h-4.6l-5.3-7.1L6 21H3l7.4-8.9Z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="6" width="19" height="12" rx="3"/><path d="M11 10.5l4 1.5-4 1.5Z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>About</h5>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Language</h5>
+        <div class="lang-select">
+          <span>🛂</span>
+          <select aria-label="Select language">
+            <option>English</option>
+            <option>नेपाली</option>
+            <option>हिन्दी</option>
+            <option>Français</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Tourist Explorer. All rights reserved.</span>
+      <span>Made for travelers who like to plan ahead — and those who don't.</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // ── Session-Aware Navigation ──────────────────────────────
+  (function() {
+    const token = sessionStorage.getItem('te_session_token');
+    const userName = sessionStorage.getItem('te_user_name');
+    const navActions = document.getElementById('navActions');
+    const burger = navActions.querySelector('.burger');
+    const dashLink = document.getElementById('nav-dashboard-link');
+    const heroDashBtn = document.getElementById('hero-dashboard-btn');
+
+    function goToDashboard(e) {
+      e.preventDefault();
+      window.location.href = '../dashboard/index.html';
+    }
+
+    if (token) {
+      // Authenticated state
+      if (dashLink) { dashLink.style.display = ''; dashLink.addEventListener('click', goToDashboard); }
+      if (heroDashBtn) { heroDashBtn.textContent = '📊 Open Dashboard'; heroDashBtn.href = '../dashboard/index.html'; }
+      const ctaBtn = document.getElementById('cta-get-started');
+      if (ctaBtn) { ctaBtn.textContent = 'Go to Dashboard'; ctaBtn.href = '../dashboard/index.html'; }
+
+      // Insert user pill + logout before burger
+      const pill = document.createElement('div');
+      pill.style.cssText = 'display:flex;align-items:center;gap:10px;';
+      pill.innerHTML = \`
+        <span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:0.85rem;color:var(--white);opacity:0.9;">👤 \${userName || 'Explorer'}</span>
+        <button id="nav-logout" class="btn btn-ghost" style="padding:9px 18px;font-size:0.82rem;">Sign Out</button>
+      \`;
+      navActions.insertBefore(pill, burger);
+      document.getElementById('nav-logout').addEventListener('click', function() {
+        sessionStorage.removeItem('te_session_token');
+        sessionStorage.removeItem('te_user_name');
+        window.location.reload();
+      });
+    } else {
+      // Guest state
+      const guestBtns = document.createElement('div');
+      guestBtns.style.cssText = 'display:flex;align-items:center;gap:10px;';
+      guestBtns.innerHTML = \`
+        <a href="signin.html" class="btn btn-ghost" style="padding:9px 18px;font-size:0.85rem;">Sign In</a>
+        <a href="register.html" class="btn btn-primary" style="padding:9px 18px;font-size:0.85rem;">Get Started</a>
+      \`;
+      navActions.insertBefore(guestBtns, burger);
+    }
+
+    // Scroll state
+    const hdr = document.getElementById('siteHeader');
+    if (hdr) window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.scrollY > 40));
+
+    // Mobile burger
+    const burgerBtn = document.getElementById('burgerBtn');
+    const navLinksEl = document.getElementById('navLinks');
+    if (burgerBtn && navLinksEl) {
+      burgerBtn.addEventListener('click', () => {
+        burgerBtn.classList.toggle('open');
+        navLinksEl.classList.toggle('open');
+      });
+      navLinksEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        burgerBtn.classList.remove('open');
+        navLinksEl.classList.remove('open');
+      }));
+    }
+  })();
+</script>
+
+
+</body>

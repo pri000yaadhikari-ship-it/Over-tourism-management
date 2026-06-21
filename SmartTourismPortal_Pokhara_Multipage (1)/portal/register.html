@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Account — Tourist Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Roboto:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#3BAFDA; --sky-dark:#2C8FB3;
+    --teal:#2C9C91; --teal-dark:#1E6B63;
+    --orange:#F28C38; --orange-dark:#D8731F;
+    --beige:#F5F2E7; --charcoal:#333333; --white:#FFFFFF;
+    --ink-soft:#5A5A5A;
+    --shadow-card: 0 10px 30px rgba(51,51,51,0.10);
+    --shadow-lift: 0 22px 50px rgba(51,51,51,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0; font-family:'Roboto',sans-serif; color:var(--charcoal);
+    background:var(--beige); -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Poppins',sans-serif; margin:0; line-height:1.18; letter-spacing:-0.01em;}
+  p{margin:0;}
+  a{text-decoration:none; color:inherit;}
+  button{font-family:inherit; cursor:pointer; border:none; background:none;}
+  :focus-visible{outline:3px solid var(--orange); outline-offset:2px; border-radius:4px;}
+
+  .eyebrow{
+    font-family:'Poppins',sans-serif; font-weight:700; font-size:0.72rem;
+    letter-spacing:0.16em; text-transform:uppercase; color:var(--teal-dark);
+  }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:14px 26px; border-radius:999px; font-family:'Poppins',sans-serif;
+    font-weight:600; font-size:0.95rem; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    width:100%;
+  }
+  .btn-primary{background:var(--orange); color:var(--white); box-shadow:0 10px 22px rgba(242,140,56,0.35);}
+  .btn-primary:hover{background:var(--orange-dark); transform:translateY(-2px);}
+  .btn-primary:disabled{background:#E8B98A; box-shadow:none; cursor:not-allowed; transform:none;}
+  .btn-social{
+    background:var(--white); color:var(--charcoal); border:1.5px solid rgba(51,51,51,0.14);
+    font-weight:500; gap:10px;
+  }
+  .btn-social:hover{border-color:var(--teal); background:#FBFAF6;}
+
+  /* ---------- Page shell: two panels ---------- */
+  .auth-shell{
+    min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+  }
+
+  /* ---------- Left scenic / boarding-pass stub panel ---------- */
+  .stub-panel{
+    position:relative; overflow:hidden; color:var(--white);
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:46px 50px;
+  }
+  .stub-bg{
+    position:absolute; inset:0; z-index:0;
+    background-image:
+      linear-gradient(160deg, rgba(30,107,99,0.92) 0%, rgba(30,107,99,0.66) 45%, rgba(51,51,51,0.35) 100%),
+      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80');
+    background-size:cover; background-position:center;
+  }
+  .stub-perf{
+    position:absolute; right:-15px; top:0; bottom:0; width:30px; z-index:2;
+    background-image:radial-gradient(circle, var(--beige) 8px, transparent 8.5px);
+    background-size:30px 34px; background-position:center;
+  }
+  .stub-content{position:relative; z-index:2;}
+  .stub-logo{display:flex; align-items:center; gap:10px; font-family:'Poppins',sans-serif; font-weight:800; font-size:1.2rem;}
+  .stub-quote{
+    font-family:'Playfair Display',serif; font-style:italic; font-weight:600;
+    font-size:clamp(1.6rem,3vw,2.3rem); line-height:1.3; max-width:420px; margin:auto 0;
+  }
+  .stub-sub{font-size:0.98rem; color:rgba(255,255,255,0.86); line-height:1.6; max-width:380px; margin-top:18px;}
+  .stub-route-row{display:flex; align-items:center; gap:10px; margin-top:34px; position:relative; z-index:2;}
+  .stub-dots{flex:1; height:1px; background:repeating-linear-gradient(to right, rgba(255,255,255,0.55) 0 6px, transparent 6px 12px);}
+  .stub-footer{
+    font-family:'Poppins',sans-serif; font-size:0.7rem; letter-spacing:0.1em;
+    color:rgba(255,255,255,0.75); margin-top:14px; position:relative; z-index:2;
+  }
+  .stub-perks{list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; position:relative; z-index:2;}
+  .stub-perks li{display:flex; align-items:center; gap:10px; font-size:0.88rem; color:rgba(255,255,255,0.92);}
+  .perk-dot{width:7px; height:7px; border-radius:50%; background:var(--orange); flex-shrink:0;}
+
+  /* ---------- Right form panel ---------- */
+  .form-panel{
+    display:flex; align-items:center; justify-content:center;
+    padding:50px 40px;
+  }
+  .form-card{width:100%; max-width:440px;}
+  .form-top-link{
+    display:inline-flex; align-items:center; gap:6px; font-family:'Poppins',sans-serif;
+    font-weight:600; font-size:0.85rem; color:var(--ink-soft); margin-bottom:30px;
+  }
+  .form-top-link:hover{color:var(--teal-dark);}
+
+  .tag-switch{display:flex; gap:10px; margin-bottom:30px;}
+  .tag-switch a{
+    flex:1; text-align:center; padding:11px 10px; border-radius:12px;
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:0.86rem;
+    border:1.5px dashed rgba(51,51,51,0.18); color:var(--ink-soft);
+    transition:.18s;
+  }
+  .tag-switch a.active{background:var(--teal-dark); color:var(--white); border-color:var(--teal-dark);}
+  .tag-switch a:not(.active):hover{border-color:var(--teal); color:var(--teal-dark);}
+
+  .stamp-icon{
+    width:54px; height:54px; border-radius:50%; background:var(--orange); color:var(--white);
+    display:flex; align-items:center; justify-content:center; font-size:1.4rem;
+    border:3px dashed rgba(255,255,255,0.7); transform:rotate(-6deg); margin-bottom:16px;
+  }
+
+  .form-card h1{font-size:1.6rem; margin-bottom:8px;}
+  .form-card .lead{color:var(--ink-soft); font-size:0.93rem; margin-bottom:26px; line-height:1.55;}
+
+  .name-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block; font-family:'Poppins',sans-serif; font-weight:600; font-size:0.82rem;
+    margin-bottom:7px; color:var(--charcoal);
+  }
+  .field-input{
+    position:relative; display:flex; align-items:center;
+    border:1.5px solid rgba(51,51,51,0.16); border-radius:12px;
+    background:var(--white); transition:border-color .18s ease, box-shadow .18s ease;
+  }
+  .field-input:focus-within{border-color:var(--sky); box-shadow:0 0 0 4px rgba(59,175,218,0.14);}
+  .field-input.error{border-color:var(--orange-dark);}
+  .field-input input{
+    flex:1; border:none; outline:none; background:transparent;
+    padding:13px 14px; font-family:'Roboto',sans-serif; font-size:0.94rem; color:var(--charcoal);
+  }
+  .field-icon{padding-left:14px; color:var(--ink-soft); display:flex; align-items:center;}
+  .toggle-pass{padding-right:14px; color:var(--ink-soft); font-size:0.8rem; font-weight:600; font-family:'Poppins',sans-serif;}
+  .toggle-pass:hover{color:var(--teal-dark);}
+  .field-hint{font-size:0.78rem; color:var(--ink-soft); margin-top:6px;}
+  .field-hint.error-text{color:var(--orange-dark); display:none;}
+  .field-hint.error-text.show{display:block;}
+
+  .strength{display:flex; gap:5px; margin-top:8px;}
+  .strength-bar{height:5px; flex:1; border-radius:3px; background:rgba(51,51,51,0.12); transition:background .2s;}
+
+  .checkbox-row{display:flex; align-items:flex-start; gap:9px; color:var(--ink-soft); font-size:0.85rem; margin-bottom:24px; line-height:1.5;}
+  .checkbox-row input{width:16px; height:16px; accent-color:var(--teal); margin-top:2px; flex-shrink:0;}
+  .link-accent{color:var(--sky-dark); font-weight:600;}
+  .link-accent:hover{text-decoration:underline;}
+
+  .divider{display:flex; align-items:center; gap:14px; margin:26px 0 20px; color:var(--ink-soft); font-size:0.82rem;}
+  .divider::before,.divider::after{content:''; flex:1; height:1px; background:rgba(51,51,51,0.14);}
+
+  .social-row{display:flex; flex-direction:column; gap:12px;}
+  .switch-line{text-align:center; margin-top:28px; font-size:0.9rem; color:var(--ink-soft);}
+
+  .form-msg{
+    display:none; align-items:center; gap:8px; background:#E9F7F4; color:var(--teal-dark);
+    border:1px solid rgba(44,156,145,0.3); border-radius:10px; padding:11px 14px;
+    font-size:0.85rem; margin-bottom:18px; font-weight:500;
+  }
+  .form-msg.show{display:flex;}
+
+  @media (max-width:900px){
+    .auth-shell{grid-template-columns:1fr;}
+    .stub-panel{
+      min-height:260px; padding:32px 28px;
+      border-bottom-left-radius:32px; border-bottom-right-radius:32px;
+    }
+    .stub-quote{font-size:1.4rem; margin:14px 0 0;}
+    .stub-sub,.stub-perks{display:none;}
+    .stub-route-row{margin-top:18px;}
+    .stub-perf{display:none;}
+    .form-panel{padding:36px 22px 60px;}
+    .name-row{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important;} }
+</style>
+</head>
+<body>
+
+<div class="auth-shell">
+
+  <div class="stub-panel">
+    <div class="stub-bg"></div>
+    <div class="stub-perf"></div>
+
+    <div class="stub-content stub-logo">
+      <svg width="28" height="28" viewBox="0 0 30 30" fill="none">
+        <circle cx="15" cy="15" r="14" stroke="currentColor" stroke-width="2"/>
+        <path d="M15 6L19 13L15 24L11 13L15 6Z" fill="#F28C38"/>
+      </svg>
+      Tourist Explorer
+    </div>
+
+    <div class="stub-content">
+      <p class="stub-quote">"Every trip starts with a first stamp."</p>
+      <p class="stub-sub">Create your passport to real-time crowd insights, hidden cafés, and seasonal smart picks.</p>
+      <ul class="stub-perks">
+        <li><span class="perk-dot"></span>Live crowd forecasts before you book</li>
+        <li><span class="perk-dot"></span>Save restaurants, cafes &amp; hotels you love</li>
+        <li><span class="perk-dot"></span>Free, no card required</li>
+      </ul>
+    </div>
+
+    <div class="stub-content">
+      
+      <p class="stub-footer">BOARDING PASS · NEW EXPLORER</p>
+    </div>
+  </div>
+
+  <div class="form-panel">
+    <div class="form-card">
+      <a href="index.html" class="form-top-link">← Back to home</a>
+
+      <div class="tag-switch">
+        <a href="signin.html">Sign In</a>
+        <a href="register.html" class="active">Create Account</a>
+      </div>
+
+     
+      <h1>Create your account</h1>
+      <p class="lead">Already exploring with us? <a href="signin.html" class="link-accent">Sign in instead</a>.</p>
+
+      <div class="form-msg" id="formMsg">✓ Account created — welcome aboard.</div>
+
+      <form id="registerForm" novalidate>
+        <div class="name-row">
+          <div class="field">
+            <label for="fname">First name</label>
+            <div class="field-input">
+              <input type="text" id="fname" placeholder="Maya" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="lname">Last name</label>
+            <div class="field-input">
+              <input type="text" id="lname" placeholder="Rai" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <div class="field-input">
+            <span class="field-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </span>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="field-input">
+            <span class="field-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            </span>
+            <input type="password" id="password" placeholder="Create a password" required minlength="8">
+            <button type="button" class="toggle-pass" id="togglePass1">Show</button>
+          </div>
+          <div class="strength" id="strengthBars">
+            <div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div>
+          </div>
+          <p class="field-hint">Use 8+ characters with a mix of letters &amp; numbers.</p>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <div class="field-input" id="confirmWrap">
+            <span class="field-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            </span>
+            <input type="password" id="confirm" placeholder="Re-enter your password" required>
+            <button type="button" class="toggle-pass" id="togglePass2">Show</button>
+          </div>
+          <p class="field-hint error-text" id="matchError">Passwords don't match yet.</p>
+        </div>
+
+        <label class="checkbox-row">
+          <input type="checkbox" id="terms" required>
+          I agree to the <a href="#" class="link-accent">Terms of Use</a> and <a href="#" class="link-accent">Privacy Policy</a>.
+        </label>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn">Create Account</button>
+      </form>
+
+      <div class="divider">or continue with</div>
+
+      <div class="social-row">
+        <button class="btn btn-social" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.21.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          Continue with Google
+        </button>
+        <button class="btn btn-social" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.36 1.43c.1 1.06-.32 2.1-.95 2.85-.64.76-1.7 1.36-2.74 1.27-.12-1.04.36-2.1 1-2.84.66-.76 1.78-1.34 2.69-1.28zM20.3 17.4c-.32.74-.7 1.43-1.16 2.06-.63.86-1.27 1.72-2.28 1.74-.99.02-1.31-.62-2.45-.62-1.13 0-1.49.6-2.43.64-1 .04-1.76-.94-2.4-1.8-1.31-1.78-2.32-5.04-.97-7.24a3.94 3.94 0 0 1 3.32-1.97c1.06-.02 1.74.62 2.43.62.68 0 1.49-.66 2.6-.64.46.01 2.07.18 3.06 1.78-.08.05-1.82 1.07-1.8 3.14.02 2.48 2.18 3.27 2.18 3.27.02.01-.34.02-.1.02z"/></svg>
+          Continue with Apple
+        </button>
+      </div>
+
+      <p class="switch-line">Already have an account? <a href="signin.html" class="link-accent">Sign in</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function wireToggle(btnId, inputId){
+    const btn = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    btn.addEventListener('click', () => {
+      const isPass = input.type === 'password';
+      input.type = isPass ? 'text' : 'password';
+      btn.textContent = isPass ? 'Hide' : 'Show';
+    });
+  }
+  wireToggle('togglePass1','password');
+  wireToggle('togglePass2','confirm');
+
+  const pw = document.getElementById('password');
+  const bars = document.querySelectorAll('#strengthBars .strength-bar');
+  const colors = ['#E2715B','#F28C38','#3BAFDA','#2C9C91'];
+  pw.addEventListener('input', () => {
+    let score = 0;
+    if (pw.value.length >= 8) score++;
+    if (/[A-Z]/.test(pw.value) && /[a-z]/.test(pw.value)) score++;
+    if (/[0-9]/.test(pw.value)) score++;
+    if (/[^A-Za-z0-9]/.test(pw.value)) score++;
+    bars.forEach((b, i) => { b.style.background = i < score ? colors[score-1] : 'rgba(51,51,51,0.12)'; });
+  });
+
+  const confirm = document.getElementById('confirm');
+  const confirmWrap = document.getElementById('confirmWrap');
+  const matchError = document.getElementById('matchError');
+  function checkMatch(){
+    if (confirm.value.length === 0){
+      confirmWrap.classList.remove('error'); matchError.classList.remove('show');
+      return true;
+    }
+    const ok = confirm.value === pw.value;
+    confirmWrap.classList.toggle('error', !ok);
+    matchError.classList.toggle('show', !ok);
+    return ok;
+  }
+  confirm.addEventListener('input', checkMatch);
+  pw.addEventListener('input', checkMatch);
+
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
+    const firstName = document.getElementById('firstName') ? document.getElementById('firstName').value.trim() : '';
+    const lastName = document.getElementById('lastName') ? document.getElementById('lastName').value.trim() : '';
+    
+    // Mock registration: set session token
+    const token = 'te_' + Math.random().toString(36).slice(2) + Date.now();
+    sessionStorage.setItem('te_session_token', token);
+    const name = [firstName, lastName].filter(Boolean).join(' ') || (email.split('@')[0]);
+    sessionStorage.setItem('te_user_name', name);
+
+    const msg = document.getElementById('formMsg') || document.getElementById('regMsg');
+    if (msg) { msg.textContent = '✓ Account created — loading dashboard…'; msg.classList.add('show'); }
+
+    setTimeout(() => window.location.replace('../dashboard/index.html'), 900);
+  });
+</script>
+
+</body>
+</html>
